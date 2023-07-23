@@ -13,7 +13,15 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
-qt_add_executable(apptinyrt src/main.cpp src/Tuple.hpp)
+qt_add_executable(
+  apptinyrt
+  src/main.cpp
+  src/Utils.hpp
+  src/Tuple.hpp
+  src/Point.cpp
+  src/Point.hpp
+  src/Vec.cpp
+  src/Vec.hpp)
 
 qt_add_qml_module(
   apptinyrt
