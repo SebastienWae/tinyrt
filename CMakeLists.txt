@@ -9,7 +9,7 @@ enable_testing()
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Quick Gui)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -23,7 +23,13 @@ qt_add_executable(
   src/Vec.cpp
   src/Vec.hpp
   src/Color.cpp
-  src/Color.hpp)
+  src/Color.hpp
+  src/RTRender.cpp
+  src/RTRender.hpp
+  src/RTThread.cpp
+  src/RTThread.hpp)
+
+include_directories(src)
 
 qt_add_resources(apptinyrt "qtquickcontrols" PREFIX "/" FILES
                  qtquickcontrols2.conf)
@@ -31,7 +37,7 @@ qt_add_resources(apptinyrt "qtquickcontrols" PREFIX "/" FILES
 qt_add_qml_module(
   apptinyrt
   URI
-  tinyrt
+  com.tinyrt
   VERSION
   1.0
   QML_FILES
@@ -49,7 +55,7 @@ set_target_properties(
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
 
-target_link_libraries(apptinyrt PRIVATE Qt6::Quick)
+target_link_libraries(apptinyrt PRIVATE Qt6::Core Qt6::Quick Qt6::Gui)
 
 include(GNUInstallDirs)
 install(
