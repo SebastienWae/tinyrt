@@ -49,22 +49,6 @@ TEST(TupleTests, can_compare_Vecs) {
   }
 }
 
-TEST(TupleTests, can_compare_Points_and_Vecs) {
-  {
-    Point p(1.0, 2.0, 3.0);
-    Vec v(1.0, 2.0, 3.0);
-
-    EXPECT_NE(p, v);
-  }
-
-  {
-    Point p(1.0, 2.0, 3.0);
-    Vec v(1.0, 2.0, 3.0);
-
-    EXPECT_NE(v, p);
-  }
-}
-
 /* ADDITION */
 // it should not be possible to add two points
 // adding a point and a vector returns a point

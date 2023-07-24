@@ -16,14 +16,14 @@ public:
   float w() const { return m_w; }
 };
 
-template <typename T1, typename T2>
-bool operator==(const Tuple<T1> &lhs, const Tuple<T2> &rhs) {
+template <typename T>
+bool operator==(const Tuple<T> &lhs, const Tuple<T> &rhs) {
   return almost_equal(lhs.x(), rhs.x()) && almost_equal(lhs.y(), rhs.y()) &&
          almost_equal(lhs.z(), rhs.z()) && almost_equal(lhs.w(), rhs.w());
 }
 
-template <typename T1, typename T2>
-bool operator!=(const Tuple<T1> &lhs, const Tuple<T2> &rhs) {
+template <typename T>
+bool operator!=(const Tuple<T> &lhs, const Tuple<T> &rhs) {
   return !(lhs == rhs);
 }
 
