@@ -4,20 +4,20 @@
 #include "../src/Vec.hpp"
 
 /* CONSTRUCTOR */
-TEST(TupleTests, Point_w_is_1) {
+TEST(VecPointTests, Point_w_is_1) {
   Point p(1.0, 2.0, 3.0);
 
   EXPECT_FLOAT_EQ(p.w(), 1.0);
 }
 
-TEST(TupleTests, Vec_w_is_0) {
+TEST(VecPointTests, Vec_w_is_0) {
   Vec v(1.0, 2.0, 3.0);
 
   EXPECT_FLOAT_EQ(v.w(), 0.0);
 }
 
 /* COMPARISON */
-TEST(TupleTests, can_compare_Points) {
+TEST(VecPointTests, can_compare_Points) {
   {
     Point pa(1.0, 2.0, 3.0);
     Point pb(1.0, 2.0, 3.0);
@@ -33,7 +33,7 @@ TEST(TupleTests, can_compare_Points) {
   }
 }
 
-TEST(TupleTests, can_compare_Vecs) {
+TEST(VecPointTests, can_compare_Vecs) {
   {
     Vec va(1.0, 2.0, 3.0);
     Vec vb(1.0, 2.0, 3.0);
@@ -53,7 +53,7 @@ TEST(TupleTests, can_compare_Vecs) {
 // it should not be possible to add two points
 // adding a point and a vector returns a point
 // adding two vectors returns a vector
-TEST(TupleTests, can_add_Points_and_Vecs) {
+TEST(VecPointTests, can_add_Points_and_Vecs) {
   {
     Point p(1.0, 2.0, 3.0);
     Vec v(3.0, -2.0, -4.7);
@@ -71,7 +71,7 @@ TEST(TupleTests, can_add_Points_and_Vecs) {
   }
 }
 
-TEST(TupleTests, can_add_Vecs) {
+TEST(VecPointTests, can_add_Vecs) {
   Vec va(-1.0, -2.0, 3.0);
   Vec vb(3.0, -2.0, -4.7);
   Vec x{2.0, -4.0, -1.7};
@@ -84,7 +84,7 @@ TEST(TupleTests, can_add_Vecs) {
 // subtracting two vectors returns a vector
 // subtracting two points returns a vector
 // subtracting a vector to a point returns a point
-TEST(TupleTests, can_sub_Vecs) {
+TEST(VecPointTests, can_sub_Vecs) {
   Vec va(1.0, 2.0, 3.0);
   Vec vb(3.0, -2.0, -4.7);
   Vec x{-2.0, 4.0, 7.7};
@@ -92,7 +92,7 @@ TEST(TupleTests, can_sub_Vecs) {
   EXPECT_EQ(va - vb, x);
 }
 
-TEST(TupleTests, can_sub_Points) {
+TEST(VecPointTests, can_sub_Points) {
   Point pa(1.0, 2.0, 3.0);
   Point pb(3.0, -2.0, -4.7);
   Vec x{-2.0, 4.0, 7.7};
@@ -100,7 +100,7 @@ TEST(TupleTests, can_sub_Points) {
   EXPECT_EQ(pa - pb, x);
 }
 
-TEST(TupleTests, can_sub_Vec_to_Point) {
+TEST(VecPointTests, can_sub_Vec_to_Point) {
   Point p(1.0, 2.0, 3.0);
   Vec v(3.0, -2.0, -4.7);
   Point x{-2.0, 4.0, 7.7};
@@ -109,7 +109,7 @@ TEST(TupleTests, can_sub_Vec_to_Point) {
 }
 
 /* NEGATION */
-TEST(TupleTests, can_negate_Vec) {
+TEST(VecPointTests, can_negate_Vec) {
   Vec va(1.0, 2.0, 3.0);
   Vec vb{-1.0, -2.0, -3.0};
 
@@ -117,7 +117,7 @@ TEST(TupleTests, can_negate_Vec) {
 }
 
 /* SCALAR MULTIPLICATION */
-TEST(TupleTests, can_multiply_Points_by_scalar) {
+TEST(VecPointTests, can_multiply_Points_by_scalar) {
   {
     Point p(1.0, 2.0, 3.2);
     int a = 3;
@@ -135,7 +135,7 @@ TEST(TupleTests, can_multiply_Points_by_scalar) {
   }
 }
 
-TEST(TupleTests, can_multiply_Vec_by_scalar) {
+TEST(VecPointTests, can_multiply_Vec_by_scalar) {
   {
     Vec p(1.0, 2.0, 3.2);
     int a = 3;
@@ -154,7 +154,7 @@ TEST(TupleTests, can_multiply_Vec_by_scalar) {
 }
 
 /* SCALAR DIVISION */
-TEST(TupleTests, can_divide_Points_by_scalar) {
+TEST(VecPointTests, can_divide_Points_by_scalar) {
   {
     Point p(1.0, 2.0, 3.2);
     int a = 3;
@@ -172,7 +172,7 @@ TEST(TupleTests, can_divide_Points_by_scalar) {
   }
 }
 
-TEST(TupleTests, can_divide_Vec_by_scalar) {
+TEST(VecPointTests, can_divide_Vec_by_scalar) {
   {
     Vec p(1.0, 2.0, 3.2);
     int a = 3;
@@ -191,7 +191,7 @@ TEST(TupleTests, can_divide_Vec_by_scalar) {
 }
 
 /* MAGNITUDE */
-TEST(TupleTests, can_compute_magnitude_of_Vec) {
+TEST(VecPointTests, can_compute_magnitude_of_Vec) {
   {
     Vec v(1.0, 0.0, 0.0);
 
@@ -226,7 +226,7 @@ TEST(TupleTests, can_compute_magnitude_of_Vec) {
 }
 
 /* NORMALIZATION */
-TEST(TupleTests, can_normalize_Vec) {
+TEST(VecPointTests, can_normalize_Vec) {
   {
     Vec v(4.0, 0, 0);
     Vec x(1.0, 0, 0);
@@ -249,7 +249,7 @@ TEST(TupleTests, can_normalize_Vec) {
 }
 
 /* DOT PRODUCT */
-TEST(TupleTests, can_compute_dot_product) {
+TEST(VecPointTests, can_compute_dot_product) {
   {
     Vec v1(1.0, 2.0, 3.0);
     Vec v2(2.0, 3.0, 4.0);
@@ -259,7 +259,7 @@ TEST(TupleTests, can_compute_dot_product) {
 }
 
 /* CROSS PRODUCT */
-TEST(TupleTests, can_compute_cross_product) {
+TEST(VecPointTests, can_compute_cross_product) {
   Vec v1(1.0, 2.0, 3.0);
   Vec v2(2.0, 3.0, 4.0);
 

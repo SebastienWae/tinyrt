@@ -21,7 +21,9 @@ qt_add_executable(
   src/Point.cpp
   src/Point.hpp
   src/Vec.cpp
-  src/Vec.hpp)
+  src/Vec.hpp
+  src/Color.cpp
+  src/Color.hpp)
 
 qt_add_qml_module(
   apptinyrt
