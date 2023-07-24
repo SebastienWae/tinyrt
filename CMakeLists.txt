@@ -25,6 +25,9 @@ qt_add_executable(
   src/Color.cpp
   src/Color.hpp)
 
+qt_add_resources(apptinyrt "qtquickcontrols" PREFIX "/" FILES
+                 qtquickcontrols2.conf)
+
 qt_add_qml_module(
   apptinyrt
   URI
