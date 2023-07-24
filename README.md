@@ -6,7 +6,6 @@ The ray tracer itself was built from scratch and does not use Qt libraries.
 
 ## Dependencies
 - CMake
-- vcpkg
 - Qt 6.5
 
 ## Build
