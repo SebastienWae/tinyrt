@@ -6,5 +6,5 @@ target_link_libraries(VecPointTests GTest::gtest_main)
 gtest_discover_tests(VecPointTests)
 
 add_executable(ColorTests ColorTests.cpp ../src/Color.cpp)
-target_link_libraries(ColorTests GTest::gtest_main)
+target_link_libraries(ColorTests GTest::gtest_main Qt6::Gui)
 gtest_discover_tests(ColorTests)
