@@ -18,8 +18,8 @@ public:
 
 template <typename T>
 bool operator==(const Tuple<T> &lhs, const Tuple<T> &rhs) {
-  return almost_equal(lhs.x(), rhs.x()) && almost_equal(lhs.y(), rhs.y()) &&
-         almost_equal(lhs.z(), rhs.z()) && almost_equal(lhs.w(), rhs.w());
+  return fuzzyequal(lhs.x(), rhs.x()) && fuzzyequal(lhs.y(), rhs.y()) &&
+         fuzzyequal(lhs.z(), rhs.z()) && fuzzyequal(lhs.w(), rhs.w());
 }
 
 template <typename T>
@@ -29,13 +29,13 @@ bool operator!=(const Tuple<T> &lhs, const Tuple<T> &rhs) {
 
 template <typename T, typename A,
           std::enable_if_t<std::is_arithmetic<A>::value, bool> = true>
-T operator*(const Tuple<T> &lhs, A rhs) {
+T operator*(const Tuple<T> &lhs, const A &rhs) {
   return T(lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs);
 }
 
 template <typename T, typename A,
           std::enable_if_t<std::is_arithmetic<A>::value, bool> = true>
-T operator/(const Tuple<T> &lhs, A rhs) {
+T operator/(const Tuple<T> &lhs, const A &rhs) {
   return T(lhs.x() / rhs, lhs.y() / rhs, lhs.z() / rhs);
 }
 
