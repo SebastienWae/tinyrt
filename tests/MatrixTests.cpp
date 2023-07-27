@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "../src/Matrix.hpp"
+#include "../src/Point.hpp"
 #include "../src/Tuple.hpp"
+#include "../src/Vec.hpp"
 
 /* CONSTRUCTOR */
 TEST(MatrixTest, can_construct_Matrix_of_size_1x1) {
@@ -101,12 +103,12 @@ TEST(MatrixTest, can_multiply_Matrix_by_Matrix) {
   }
 }
 
-TEST(MatrixTest, can_multiply_Matrix_by_Tuple) {
+TEST(MatrixTest, can_multiply_Matrix_by_Point) {
   Matrix<int, 4, 4> m{{1, 2, 3, 4}, {2, 4, 4, 2}, {8, 6, 4, 1}, {0, 0, 0, 1}};
-  Tuple<int> t(1, 2, 3, 1);
-  Tuple<int> x(18, 24, 33, 1);
+  Point p(1, 2, 3);
+  Point x(18, 24, 33);
 
-  EXPECT_EQ(m * t, x);
+  EXPECT_EQ(m * p, x);
 }
 
 TEST(MatrixTest, multiplying_Matrix_by_identity_Matrix_gives_same_Matrix) {
@@ -266,4 +268,151 @@ TEST(MatrixTest, can_multiply_Matrix_by_its_inverse) {
   Matrix<float, 4, 4> c = a * b;
 
   EXPECT_EQ(c * b.inverse().value(), a);
+}
+
+/* TRANSLATION */
+TEST(MatrixTest, can_multiply_Point_by_translation_Matrix) {
+  auto t = Matrix<float, 4, 4>::translation(5, -3, 2);
+  Point p{-3, 4, 5};
+  Point r{2, 1, 7};
+
+  EXPECT_EQ(t * p, r);
+}
+
+TEST(MatrixTest, can_multiply_Point_by_inverse_translation_Matrix) {
+  auto t = Matrix<float, 4, 4>::translation(5, -3, 2).inverse().value();
+  Point p{-3, 4, 5};
+  Point r{-8, 7, 3};
+
+  EXPECT_EQ(t * p, r);
+}
+
+TEST(MatrixTest, can_multiply_Vec_translation_Matrix) {
+  auto t = Matrix<float, 4, 4>::translation(5, -3, 2);
+  Vec v{-3, 4, 5};
+
+  EXPECT_EQ(t * v, v);
+}
+
+/* SCALING */
+TEST(MatrixTest, can_multiply_Point_by_scaling_Matrix) {
+  auto t = Matrix<float, 4, 4>::scaling(2, 3, 4);
+  Point p{-4, 6, 8};
+  Point r{-8, 18, 32};
+
+  EXPECT_EQ(t * p, r);
+}
+
+TEST(MatrixTest, can_multiply_Vec_by_scaling_Matrix) {
+  auto t = Matrix<float, 4, 4>::scaling(2, 3, 4);
+  Vec v{-4, 6, 8};
+  Vec r{-8, 18, 32};
+
+  EXPECT_EQ(t * v, r);
+}
+
+TEST(MatrixTest, can_multiply_Vec_by_inverse_scaling_Matrix) {
+  auto t = Matrix<float, 4, 4>::scaling(2, 3, 4).inverse().value();
+  Vec v{-4, 6, 8};
+  Vec r{-2, 2, 2};
+
+  EXPECT_EQ(t * v, r);
+}
+
+TEST(MatrixTest,
+     can_reflect_by_multiplying_Point_with_negative_scaling_Matrix) {
+  auto t = Matrix<float, 4, 4>::scaling(-1, 1, 1);
+  Point p{2, 3, 4};
+  Point r{-2, 3, 4};
+
+  EXPECT_EQ(t * p, r);
+}
+
+/* ROTATION */
+TEST(MatrixTest, can_rotate_point_around_x_axis) {
+  Point p{0, 1, 0};
+  auto half_quarter = Matrix<float, 4, 4>::rotation_x(M_PI_4);
+  auto full_quarter = Matrix<float, 4, 4>::rotation_x(M_PI_2);
+
+  EXPECT_EQ(half_quarter * p, (Point{0, sqrtf(2) / 2, sqrtf(2) / 2}));
+  EXPECT_EQ(full_quarter * p, (Point{0, 0, 1}));
+}
+
+TEST(MatrixTest, can_rotate_point_around_x_axis_in_opposite_direction) {
+  Point p{0, 1, 0};
+  auto half_quarter = Matrix<float, 4, 4>::rotation_x(M_PI / 4);
+  auto inv = half_quarter.inverse().value();
+
+  EXPECT_EQ(inv * p, (Point{0, sqrtf(2) / 2, -sqrtf(2) / 2}));
+}
+
+TEST(MatrixTest, can_rotate_point_around_y_axis) {
+  Point p{0, 0, 1};
+  auto half_quarter = Matrix<float, 4, 4>::rotation_y(M_PI_4);
+  auto full_quarter = Matrix<float, 4, 4>::rotation_y(M_PI_2);
+
+  EXPECT_EQ(half_quarter * p, (Point{sqrtf(2) / 2, 0, sqrtf(2) / 2}));
+  EXPECT_EQ(full_quarter * p, (Point{1, 0, 0}));
+}
+
+TEST(MatrixTest, can_rotate_point_around_z_axis) {
+  Point p{0, 1, 0};
+  auto half_quarter = Matrix<float, 4, 4>::rotation_z(M_PI_4);
+  auto full_quarter = Matrix<float, 4, 4>::rotation_z(M_PI_2);
+
+  EXPECT_EQ(half_quarter * p, (Point{-sqrtf(2) / 2, sqrtf(2) / 2, 0}));
+  EXPECT_EQ(full_quarter * p, (Point{-1, 0, 0}));
+}
+
+/* SHEARING */
+TEST(MatrixTest, can_shear_x_in_proportion_to_y) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(1, 0, 0, 0, 0, 0);
+
+  EXPECT_EQ(t * p, (Point{5, 3, 4}));
+}
+
+TEST(MatrixTest, can_shear_x_in_proportion_to_z) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(0, 1, 0, 0, 0, 0);
+
+  EXPECT_EQ(t * p, (Point{6, 3, 4}));
+}
+
+TEST(MatrixTest, can_shear_y_in_proportion_to_x) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(0, 0, 1, 0, 0, 0);
+
+  EXPECT_EQ(t * p, (Point{2, 5, 4}));
+}
+
+TEST(MatrixTest, can_shear_y_in_proportion_to_z) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(0, 0, 0, 1, 0, 0);
+
+  EXPECT_EQ(t * p, (Point{2, 7, 4}));
+}
+
+TEST(MatrixTest, can_shear_z_in_proportion_to_x) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(0, 0, 0, 0, 1, 0);
+
+  EXPECT_EQ(t * p, (Point{2, 3, 6}));
+}
+
+TEST(MatrixTest, can_shear_z_in_proportion_to_y) {
+  Point p{2, 3, 4};
+  auto t = Matrix<float, 4, 4>::shearing(0, 0, 0, 0, 0, 1);
+
+  EXPECT_EQ(t * p, (Point{2, 3, 7}));
+}
+
+/* SEQUENCE */
+TEST(MatrixTest, can_apply_transformation_in_sequence) {
+  Point p{1, 0, 1};
+  auto r = Matrix<float, 4, 4>::rotation_x(M_PI_2);
+  auto s = Matrix<float, 4, 4>::scaling(5, 5, 5);
+  auto t = Matrix<float, 4, 4>::translation(10, 5, 7);
+
+  EXPECT_EQ(t * s * r * p, (Point{15, 0, 7}));
 }

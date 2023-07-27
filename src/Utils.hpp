@@ -15,9 +15,7 @@ fuzzyequal(T x, T y) {
 template <typename T>
 typename std::enable_if<std::is_floating_point<T>::value, bool>::type
 fuzzyequal(T x, T y) {
-  return std::fabs(x - y) <=
-             std::numeric_limits<T>::epsilon() * std::fabs(x + y) * 4 ||
-         std::fabs(x - y) < std::numeric_limits<T>::min();
+  return std::abs(x - y) < 1e-6;
 }
 
 template <typename T>

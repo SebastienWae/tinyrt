@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <optional>
 #include <stdexcept>
+#include <cmath>
 
 #include "Utils.hpp"
 
@@ -53,6 +54,72 @@ public:
     for (size_t i = 0; i < M; ++i) {
       result(i, i) = 1;
     }
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> translation(T x, T y, T z) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(0, 3) = x;
+    result(1, 3) = y;
+    result(2, 3) = z;
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> scaling(T x, T y, T z) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(0, 0) = x;
+    result(1, 1) = y;
+    result(2, 2) = z;
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> rotation_x(T r) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(1, 1) = cos(r);
+    result(1, 2) = -sin(r);
+    result(2, 1) = sin(r);
+    result(2, 2) = cos(r);
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> rotation_y(T r) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(0, 0) = cos(r);
+    result(0, 2) = sin(r);
+    result(2, 0) = -sin(r);
+    result(2, 2) = cos(r);
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> rotation_z(T r) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(0, 0) = cos(r);
+    result(0, 1) = -sin(r);
+    result(1, 0) = sin(r);
+    result(1, 1) = cos(r);
+
+    return result;
+  }
+
+  static Matrix<T, 4, 4> shearing(T xy, T xz, T yx, T yz, T zx, T zy) {
+    Matrix<T, 4, 4> result = Matrix<T, M, N>::identity();
+
+    result(0, 1) = xy;
+    result(0, 2) = xz;
+    result(1, 0) = yx;
+    result(1, 2) = yz;
+    result(2, 0) = zx;
+    result(2, 1) = zy;
 
     return result;
   }
